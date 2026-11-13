@@ -1,6 +1,19 @@
+<div align="center">
+
 # idea-to-launch
 
 **Share a seed idea. Answer a few quick questions. Get a working MVP.**
+
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+[![Claude Code plugin](https://img.shields.io/badge/Claude%20Code-plugin-D97757)](https://docs.claude.com/en/docs/claude-code)
+[![Version](https://img.shields.io/badge/version-1.0.0-2ea44f.svg)](https://github.com/moa0101/idea-to-launch/releases)
+![Builds](https://img.shields.io/badge/builds-Web%20%7C%20SaaS%20%7C%20iOS%20%7C%20macOS%20%7C%20Games-555)
+
+[Install](#install) · [How it works](#how-a-run-works) · [Example](#example) · [Good to know](#good-to-know)
+
+</div>
+
+---
 
 A Claude Code plugin that works like a startup panel. It asks you at most 5 questions,
 each with a recommended answer pre-selected, then decides everything else from evidence:
