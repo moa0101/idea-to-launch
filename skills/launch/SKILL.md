@@ -161,6 +161,10 @@ Write `launch/handoff.md` and a project `README.md`:
 - Decisions the user may want to revisit (top 5 from `decisions.md`).
 - **Next 3 things**: the next highest-value steps (e.g. deploy, the first real user
   test from the board's conditions, the top SHOULD feature).
+- **Level up:** after the user tests v1, they reply "next step is: …" and the
+  `launch-levelup` skill challenges v1 against a professional bar, then ships v2 across
+  product, marketing, selling and pitch. Suggest the first challenge (usually
+  Works → Credible).
 - Optional deeper skills: `/founder-competitors` (full map), `founder:pricing-strategy`,
   `founder:landing-page`, `founder:go-to-market`.
 

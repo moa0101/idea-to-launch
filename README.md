@@ -74,9 +74,32 @@ It only stops for decisions that really are yours:
 - regulated areas (health, finance, kids' data, gambling)
 - names that copy someone else's brand
 
+## Level up: from "it works" to "it sells"
+
+Once you've tested v1, tell the challenger what's next:
+
+```
+/levelup next step is: users got lost on first open, and I want to show it to investors
+```
+
+`launch-levelup` doesn't just add features. It goes through five steps:
+
+1. **Challenges v1.** It scores the project on a professional rubric across 5 tracks (Product, Experience, Market, Sell, Pitch), using measurements and a benchmark against the best competitor.
+2. **Places it on the ladder:** **Works → Credible → Sellable → Fundable → Scalable**.
+3. **Pushes back** if your step isn't the highest-leverage move. It still does your step, plus the thing that matters more.
+4. **Ships the next level** across everything that level needs. Depending on the level, that can include:
+   - product polish, onboarding, accessibility and analytics
+   - a landing page or App Store listing, plus a launch kit
+   - pricing with test-mode checkout, plus emails
+   - an investor one-pager, deck, demo script and metrics plan
+5. **Re-verifies and rescores.** You get a before/after scorecard and the next challenge to take on.
+
+It never invents traction, testimonials or revenue. Payments go live, posts go out and deploys happen only after you say yes.
+
 ## Skills in this pack
 
 - `launch`: the orchestrator. Start here.
+- `launch-levelup`: the challenger. Takes the next version up the ladder: product, market, sell and pitch.
 - `launch-brand`: name, slogan, voice, tokens, logo, icons. Also handles rebrands later.
 - `launch-build-web`, `launch-build-apple`, `launch-build-game-web`, `launch-build-game-apple`: one builder per platform.
 
