@@ -1,0 +1,12 @@
+{
+  "name": "idea-to-launch",
+  "description": "Idea-to-MVP panel for Claude Code.",
+  "owner": { "name": "moa0101", "url": "https://github.com/moa0101" },
+  "plugins": [
+    {
+      "name": "idea-to-launch",
+      "source": "./",
+      "description": "Seed idea → questions → validation → brand → working, verified MVP (web, SaaS, iOS, macOS, games)."
+    }
+  ]
+}

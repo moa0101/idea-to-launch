@@ -1,0 +1,9 @@
+{
+  "name": "idea-to-launch",
+  "version": "1.0.0",
+  "description": "Turn a seed idea into a working, verified MVP: one short question round, a lean board verdict and competitor scan, a brand (name, slogan, logo), then a real build for web/SaaS, iOS, macOS or games.",
+  "author": { "name": "moa0101", "url": "https://github.com/moa0101" },
+  "repository": "https://github.com/moa0101/idea-to-launch",
+  "license": "MIT",
+  "keywords": ["mvp", "startup", "founder", "nextjs", "supabase", "swiftui", "phaser", "spritekit", "branding", "prototype"]
+}
