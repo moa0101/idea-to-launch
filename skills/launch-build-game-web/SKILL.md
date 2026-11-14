@@ -61,6 +61,13 @@ If the idea is "X but…", keep the mechanic, invent everything else.
   action, take a second screenshot or read state through `window.__<game>` before calling it a bug.
 - Expose the Phaser game on `window.__<slug>` for read-only inspection.
 - Put game rules in pure modules (`src/logic/`) with vitest tests. Phaser scenes only render and handle input.
+- Give the page an HTML front door: a real `<h1>`, tagline, how-to, noscript text and a
+  "Play" button, with OG/manifest/robots. Load the engine with a dynamic `import()` on Play
+  for first-time visitors, and right away for returning ones. A bare canvas scores
+  "NO_LCP" in Lighthouse, and screen readers and search engines see nothing. Keep zoom allowed
+  (no `user-scalable=no`) and use `touch-action: none` on the game container instead.
+- While the page is still the front door, set `pointer-events: none` on the game container
+  so it doesn't swallow clicks on the HTML Play button.
 - Play it yourself in the browser pane: start, take real inputs (key presses /
   clicks), reach game over, restart, reload and confirm the high score persists.
   Use `javascript_tool` only to inspect state (e.g., read score), not to fake play.

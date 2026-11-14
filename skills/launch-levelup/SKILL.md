@@ -150,6 +150,10 @@ deck, and a "Fundable" one doesn't redesign the app.
 - Re-measure (Lighthouse etc.) and **rescore the same rubric lines**. Every gain needs
   evidence. Nothing may regress. If something did, fix it or report it.
 - Run the project's tests, typecheck and build.
+- Add an end-to-end test (Playwright, `channel: 'chrome'`, desktop + a phone profile) that
+  plays the new critical path with real mouse/keyboard input, and keep it in the project.
+  It's repeatable, and it still works when the in-app browser pane is hidden. A hidden pane
+  throttles the page to about 1 fps, so canvas games ignore clicks there.
 - Read every marketing, sales and pitch document once as a skeptical buyer or
   investor: cut hype, unproven claims and filler.
 
