@@ -40,7 +40,7 @@ const log = existsSync('CHANGELOG.md') ? text('CHANGELOG.md').match(/^## ([\d.]+
 if (log !== version) fail('CHANGELOG.md', `latest entry ${log} ≠ plugin.json ${version}`);
 
 // 3. Every slash command in the README names a real skill.
-for (const [, cmd] of text('README.md').matchAll(/`\/(?:idea-to-launch:)?(launch[a-z-]*)[\s`]/g)) {
+for (const [, cmd] of text('README.md').matchAll(/(?<![\w/.-])\/(?:idea-to-launch:)?(launch[a-z-]*)(?![\w/.-])/g)) {
   if (!skills.includes(cmd)) fail('README.md', `command /${cmd} has no skill skills/${cmd}/`);
 }
 
