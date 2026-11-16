@@ -175,6 +175,12 @@ What changed in each version: [CHANGELOG.md](CHANGELOG.md).
 - Name checks are quick public searches, not trademark clearance. Results aren't legal, financial or tax advice.
 - Games are original. The builders won't recreate an existing game's name, characters, art or levels.
 
+## Contributing
+
+Issues and PRs are welcome. Before a PR, run `node scripts/validate.mjs`. It checks skill headers, versions,
+README commands, links, and that no local paths or secrets slipped in. CI runs the same check plus the example's
+tests and build.
+
 ## Credits
 
 The board lenses (`skills/launch/lenses.md`) come from [Founder skill](https://github.com/Jakeschincariol/founder-skill) by Jake Schincariol (MIT). For a deeper business plan, with a 100-buyer consumer panel, a CFO model and pricing, install that pack too. See [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
