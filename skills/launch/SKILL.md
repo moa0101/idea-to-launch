@@ -49,6 +49,17 @@ idea at all, ask for it in one line and stop.
 - `git init` the project, add a `.gitignore`, commit after each stage
   (`launch: <stage>`). Never push anywhere.
 
+## Resuming a run
+
+If the project already has a `launch/` folder (the user says "continue", or a previous run stopped), don't
+start over:
+- Read `launch/decisions.md`, `launch/handoff.md` (if present) and `git log --oneline` for `launch: <stage>`
+  commits. The last finished stage is the last such commit.
+- Skip every finished stage. Never re-ask the intake questions; the answers are in `launch/intake.md`.
+- Re-run the failed step's checks first, fix the cause, then carry on from the next stage.
+- If the user changed a decision in `launch/decisions.md` since the last commit, redo only the stages that depend
+  on it (brand → spec → build), and say which ones in one line.
+
 ## Stage 1 — intake (the ONLY question round)
 
 1. Classify the idea, silently:

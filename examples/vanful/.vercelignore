@@ -1,0 +1,15 @@
+# Upload only what the build needs. Never upload the supporter code or test artefacts.
+go-to-market/
+launch/
+e2e/
+test-results/
+playwright-report/
+supabase/
+*.local.txt
+.env*
+!.env.example
+dist-portal/
+release/
+dist-assets/
+dist-assets-frames/
+scripts/

@@ -1,12 +1,16 @@
 {
   "name": "idea-to-launch",
-  "description": "Idea-to-MVP panel for Claude Code.",
-  "owner": { "name": "moa0101", "url": "https://github.com/moa0101" },
+  "description": "Idea-to-MVP panel for Claude Code, plus a challenger that levels each version up.",
+  "owner": {
+    "name": "moa0101",
+    "url": "https://github.com/moa0101"
+  },
   "plugins": [
     {
       "name": "idea-to-launch",
       "source": "./",
-      "description": "Seed idea → questions → validation → brand → working, verified MVP (web, SaaS, iOS, macOS, games)."
+      "description": "Seed idea → ≤5 questions → validation → brand → working, verified MVP (web, SaaS, iOS, macOS, games). Then /launch-levelup takes it from Works to Credible, Sellable and Fundable.",
+      "version": "1.2.0"
     }
   ]
 }

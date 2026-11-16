@@ -6,10 +6,11 @@
 
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 [![Claude Code plugin](https://img.shields.io/badge/Claude%20Code-plugin-D97757)](https://docs.claude.com/en/docs/claude-code)
-[![Version](https://img.shields.io/badge/version-1.0.0-2ea44f.svg)](https://github.com/moa0101/idea-to-launch/releases)
+[![CI](https://github.com/moa0101/idea-to-launch/actions/workflows/ci.yml/badge.svg)](https://github.com/moa0101/idea-to-launch/actions/workflows/ci.yml)
+[![Version](https://img.shields.io/badge/version-1.2.0-2ea44f.svg)](https://github.com/moa0101/idea-to-launch/releases)
 ![Builds](https://img.shields.io/badge/builds-Web%20%7C%20SaaS%20%7C%20iOS%20%7C%20macOS%20%7C%20Games-555)
 
-[Install](#install) · [How it works](#how-a-run-works) · [Example](#example) · [Good to know](#good-to-know)
+[Install](#install) · [Real result](#a-real-run-vanful) · [How it works](#how-a-run-works) · [Level up](#level-up-from-it-works-to-it-sells) · [Troubleshooting](#when-something-goes-wrong) · [Updating](#updating)
 
 </div>
 
@@ -23,8 +24,31 @@ each with a recommended answer pre-selected, then decides everything else from e
 - builds the product, runs it and tests it the way a user would
 
 ```
-/launch a habit tracker for remote teams that posts streaks to Slack
+/idea-to-launch:launch a habit tracker for remote teams that posts streaks to Slack
 ```
+
+(Installed by copying the skills instead of as a plugin? Then it's just `/launch …`. Or say "build my idea: …".)
+
+## A real run: Vanful
+
+<p align="center">
+  <a href="https://vanful.vercel.app"><img src="examples/vanful/go-to-market/assets/gameplay.gif" width="220" alt="Vanful gameplay: packing parcels into a van and routing the delivery"></a>
+</p>
+
+**[Play it: vanful.vercel.app](https://vanful.vercel.app)**. One `/launch` run built v1 of this browser puzzle
+game. Four `/launch-levelup` runs took it to a public launch kit. Every step is in
+[`examples/vanful`](examples/vanful), including the challenge, plan and scorecard for each version.
+
+| version | made by | what changed | ladder |
+| --- | --- | --- | --- |
+| v1 | `/launch` | playable game, brand, spec, unit tests | Works |
+| v2 | `/launch-levelup` | guided first delivery, Lighthouse 100, Playwright e2e on desktop + phone | → Credible |
+| v3 | `/launch-levelup` | Daily Load mode, supporter pack, email capture, pricing | → Sellable (provisional) |
+| v4 | `/launch-levelup` | cross-player analytics + feedback on a real database, with permission tests | toward Fundable |
+| v5 | `/launch-levelup` | itch.io / CrazyGames / Poki builds, covers, videos, rule-checked launch posts | public launch |
+
+Scores and evidence: [`examples/vanful/launch/levels`](examples/vanful/launch/levels). It's pre-launch: no
+player numbers yet, and none are claimed.
 
 | platform | stack it builds | how it verifies |
 | --- | --- | --- |
@@ -79,7 +103,7 @@ It only stops for decisions that really are yours:
 Once you've tested v1, tell the challenger what's next:
 
 ```
-/levelup next step is: users got lost on first open, and I want to show it to investors
+/idea-to-launch:launch-levelup next step is: users got lost on first open, and I want to show it to investors
 ```
 
 `launch-levelup` doesn't just add features. It goes through five steps:
@@ -113,20 +137,49 @@ MVPs are built to cost **$0** to run locally. No paid APIs unless the idea can't
 
 ## Example
 
-[`examples/vanful`](examples/vanful) is a browser delivery-puzzle game made in a single `/launch` run. The seed was a dodge game, and the user pivoted it to "pack boxes into vans and deliver along the fastest route" during intake. The run produced:
-- the panel documents (`launch/`): verdict, competitors, scope, brand, spec, decisions, hand-off
-- the brand kit (`brand/`)
-- a playable, unit-tested Phaser game
+[`examples/vanful`](examples/vanful) is the game above at v5: source, tests, the panel documents (`launch/`),
+the level-up docs (`launch/levels/`), the brand kit and the go-to-market drafts.
 
 ```bash
 cd examples/vanful && npm install && npm run dev
 ```
+
+It runs with no backend. Analytics and email capture switch on only if you add your own Supabase keys.
+
+## When something goes wrong
+
+| symptom | fix |
+| --- | --- |
+| `/launch` is "unknown command" | As a plugin the skills are namespaced: `/idea-to-launch:launch`. Run `/plugin` to check it's installed and enabled, then restart Claude Code. |
+| A run stopped and asked you something | That's a hard stop (money, accounts, publishing, system installs). Answer it, or say "skip that" to continue without it. |
+| A build or check failed | Say "continue". The builder reads `launch/decisions.md` and `launch/handoff.md` and picks up from the last finished stage. |
+| Docker isn't installed (web apps) | The web builder falls back to SQLite. Install Docker later and ask it to switch to local Supabase. |
+| iOS builds fail with an `xcode-select` error | The Apple builders prefix Xcode commands with `DEVELOPER_DIR`. If Xcode itself is missing, install it from the App Store. |
+| You don't like the name, logo or colours | Say "rebrand it" (`launch-brand`). The tokens update everywhere. |
+
+Still stuck? [Open an issue](https://github.com/moa0101/idea-to-launch/issues) with the stage it stopped at and the last lines of `launch/handoff.md`.
+
+## Updating
+
+```
+/plugin marketplace update idea-to-launch
+/plugin update idea-to-launch@idea-to-launch
+```
+
+Restart Claude Code afterwards. If you copied the skills by hand, `git pull` and copy them again.
+What changed in each version: [CHANGELOG.md](CHANGELOG.md).
 
 ## Good to know
 
 - Board lenses are summaries of published frameworks. They never speak as the authors.
 - Name checks are quick public searches, not trademark clearance. Results aren't legal, financial or tax advice.
 - Games are original. The builders won't recreate an existing game's name, characters, art or levels.
+
+## Contributing
+
+Issues and PRs are welcome. Before a PR, run `node scripts/validate.mjs`. It checks skill headers, versions,
+README commands, links, and that no local paths or secrets slipped in. CI runs the same check plus the example's
+tests and build.
 
 ## Credits
 

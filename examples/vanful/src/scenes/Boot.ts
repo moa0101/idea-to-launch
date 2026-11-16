@@ -19,6 +19,9 @@ export class BootScene extends Phaser.Scene {
     } catch {
       /* fall back to system fonts */
     }
-    this.scene.start('Title');
+    document.body.classList.add('ready');
+    // First visit: the HTML page's Play button goes straight into the guided delivery.
+    if (this.registry.get('autostart') === 'tutorial') this.scene.start('Game', { tutorial: true });
+    else this.scene.start('Title');
   }
 }
