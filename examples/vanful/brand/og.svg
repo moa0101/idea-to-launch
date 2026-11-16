@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630">
+  <rect width="1200" height="630" fill="#FFF8EE"/>
+  <rect y="560" width="1200" height="70" fill="#0F766E"/>
+  <g transform="translate(70 110) scale(0.78)">
+    <rect x="40" y="132" width="300" height="230" rx="36" fill="#0F766E"/>
+    <path d="M340 196h62c14 0 26 7 33 19l38 64c4 7 6 14 6 22v25c0 20-16 36-36 36H340z" fill="#0F766E"/>
+    <path d="M362 222h36l32 54h-68z" fill="#FFF8EE"/>
+    <rect x="72" y="164" width="76" height="76" rx="12" fill="#FF7A59"/>
+    <rect x="156" y="164" width="76" height="76" rx="12" fill="#FF7A59"/>
+    <rect x="240" y="164" width="76" height="76" rx="12" fill="#3B82F6"/>
+    <rect x="72" y="248" width="76" height="76" rx="12" fill="#8B5CF6"/>
+    <rect x="156" y="248" width="76" height="76" rx="12" fill="#FF7A59"/>
+    <rect x="240" y="248" width="76" height="76" rx="12" fill="#3B82F6"/>
+    <circle cx="132" cy="378" r="46" fill="#1E2A32"/><circle cx="132" cy="378" r="18" fill="#FFF8EE"/>
+    <circle cx="392" cy="378" r="46" fill="#1E2A32"/><circle cx="392" cy="378" r="18" fill="#FFF8EE"/>
+  </g>
+  <text x="500" y="290" font-family="Arial Rounded MT Bold, Arial, sans-serif" font-weight="700" font-size="150" fill="#1E2A32">Vanful</text>
+  <text x="506" y="370" font-family="Arial Rounded MT Bold, Arial, sans-serif" font-size="46" fill="#0F766E">Pack it tight. Route it right.</text>
+  <text x="506" y="440" font-family="Arial, sans-serif" font-size="32" fill="#5B6B73">A 3-minute delivery puzzle · free in your browser</text>
+</svg>

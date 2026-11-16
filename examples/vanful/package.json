@@ -8,7 +8,14 @@
     "build": "tsc --noEmit && vite build",
     "preview": "vite preview",
     "typecheck": "tsc --noEmit",
-    "test": "vitest run"
+    "test": "vitest run",
+    "e2e": "playwright test",
+    "db:test": "supabase/tests/run.sh",
+    "report": "node scripts/playtest-report.mjs",
+    "e2e:backend": "scripts/e2e-backend.sh",
+    "build:portals": "scripts/build-portals.sh",
+    "e2e:portal": "npm run build:portals && playwright test -c playwright.portal.config.ts",
+    "assets": "rm -rf dist-assets dist-assets-frames && VITE_E2E=1 VITE_SUPABASE_URL= VITE_SUPABASE_ANON_KEY= vite build --base ./ --outDir dist-assets --emptyOutDir --logLevel error && playwright test -c playwright.assets.config.ts && node scripts/assets/covers.mjs && node scripts/assets/videos.mjs"
   },
   "dependencies": {
     "@fontsource/fredoka": "^5.3.0",
@@ -16,6 +23,7 @@
     "phaser": "^3.90.0"
   },
   "devDependencies": {
+    "@playwright/test": "^1.65.1",
     "typescript": "^5.9.3",
     "vite": "^8.3.8",
     "vitest": "^5.1.0"

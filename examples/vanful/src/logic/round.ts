@@ -34,3 +34,17 @@ export function generateRound(n: number, rng: Rng): RoundDef {
   }));
   return { n, cols, rows, stopCount, parcels: shuffle(rng, parcels), city: buildCity(rng, stopCount, traffic) };
 }
+
+/**
+ * The guided first delivery: a 4×2 van, 2 stops, 4 parcels that fit exactly with no
+ * door blocks only if A goes by the door. A1 arrives sideways, so rotating is required.
+ */
+export function tutorialRound(city: City): RoundDef {
+  const parcels: Parcel[] = [
+    { id: 0, shape: [[0, 0], [1, 0], [2, 0]], stop: 1 }, // B, long
+    { id: 1, shape: [[0, 0], [1, 0]], stop: 0 }, // A, must be rotated upright
+    { id: 2, shape: [[0, 0], [1, 0]], stop: 1 }, // B, short
+    { id: 3, shape: [[0, 0]], stop: 0 }, // A, single
+  ];
+  return { n: 0, cols: 4, rows: 2, stopCount: 2, parcels, city };
+}

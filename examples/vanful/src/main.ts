@@ -1,25 +1,30 @@
-import Phaser from 'phaser';
-import '@fontsource/fredoka/500.css';
-import '@fontsource/fredoka/600.css';
-import '@fontsource/nunito/600.css';
-import '@fontsource/nunito/700.css';
-import { CFG } from './config';
-import { HEX } from './theme';
-import { BootScene } from './scenes/Boot';
-import { TitleScene } from './scenes/Title';
-import { GameScene } from './scenes/Game';
-import { GameOverScene } from './scenes/GameOver';
+import { tutorialDone } from './storage';
 
-const game = new Phaser.Game({
-  type: Phaser.AUTO,
-  parent: 'app',
-  width: CFG.WIDTH,
-  height: CFG.HEIGHT,
-  backgroundColor: HEX.bg,
-  scale: { mode: Phaser.Scale.FIT, autoCenter: Phaser.Scale.CENTER_BOTH },
-  input: { activePointers: 2 },
-  scene: [BootScene, TitleScene, GameScene, GameOverScene],
-});
+// The HTML page paints first. The game engine (Phaser, ~95% of the JS) loads:
+// - right away for returning players, or
+// - on the Play button for first-time visitors, who go straight into the guided delivery.
+// This keeps the first visit fast on phones and makes the HTML page a real front door.
+const status = document.getElementById('status');
+const play = document.getElementById('play') as HTMLButtonElement | null;
+let started = false;
 
-// Handy for debugging in the console (read-only inspection).
-(window as unknown as { __vanful: Phaser.Game }).__vanful = game;
+const boot = (tutorial: boolean) => {
+  if (started) return;
+  started = true;
+  if (play) play.disabled = true;
+  if (status) status.textContent = 'Loading the van…';
+  import('./game')
+    .then(({ startGame }) => startGame({ tutorial }))
+    .catch(() => {
+      if (status) status.textContent = 'The game could not load. Please refresh the page.';
+    });
+};
+
+if (tutorialDone()) {
+  if (play) play.hidden = true;
+  if (document.readyState === 'complete') requestAnimationFrame(() => boot(false));
+  else addEventListener('load', () => requestAnimationFrame(() => boot(false)), { once: true });
+} else {
+  if (status) status.textContent = '';
+  play?.addEventListener('click', () => boot(true));
+}

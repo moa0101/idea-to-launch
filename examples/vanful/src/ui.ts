@@ -4,6 +4,9 @@ import { sfx } from './sfx';
 
 const DPR = Math.min(2, window.devicePixelRatio || 1);
 
+/** Respect the OS 'reduce motion' setting: no bobbing, shaking or bouncing. */
+export const REDUCED = typeof matchMedia === 'function' && matchMedia('(prefers-reduced-motion: reduce)').matches;
+
 export function text(
   scene: Phaser.Scene,
   x: number,
@@ -61,7 +64,7 @@ export function button(
   let enabled = true;
   zone.on('pointerdown', () => {
     if (!enabled) return;
-    scene.tweens.add({ targets: c, scale: 0.94, duration: 60, yoyo: true });
+    if (!REDUCED) scene.tweens.add({ targets: c, scale: 0.94, duration: 60, yoyo: true });
   });
   zone.on('pointerup', () => {
     if (!enabled) return;

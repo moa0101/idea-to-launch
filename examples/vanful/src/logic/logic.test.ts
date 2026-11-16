@@ -78,3 +78,50 @@ describe('rounds', () => {
     expect(cells1).toBe(r1.cols * r1.rows); // round 1 fits exactly
   });
 });
+
+import { tutorialRound } from './round';
+describe('tutorial round', () => {
+  it('has an exact, door-clear solution: B deep, A at the door', () => {
+    const r = tutorialRound(buildCity(makeRng(42), 2, 3));
+    expect(r.parcels.reduce((s, p) => s + p.shape.length, 0)).toBe(8);
+    const c = new Cargo(4, 2);
+    c.place(0, r.parcels[0].shape, 0, 0); // B long: row0 cols0-2
+    c.place(1, rotate(r.parcels[1].shape), 3, 0); // A upright: col3 rows0-1
+    c.place(2, r.parcels[2].shape, 0, 1); // B short: row1 cols0-1
+    c.place(3, r.parcels[3].shape, 2, 1); // A single: row1 col2
+    expect(c.filled()).toBe(8);
+    const stopOf = (id: number) => r.parcels[id].stop;
+    expect(simulateUnload(c, stopOf, [0, 1]).flatMap((s) => s.blocked)).toEqual([]);
+    expect(simulateUnload(c, stopOf, [1, 0]).flatMap((s) => s.blocked).length).toBeGreaterThan(0);
+  });
+});
+
+import { currentStreak, dayNumber, nextStreak, seedFor, shareText } from './daily';
+describe('daily load', () => {
+  it('same date → same seed and same rounds; different date → different', () => {
+    expect(seedFor('2026-11-20')).toBe(seedFor('2026-11-20'));
+    expect(seedFor('2026-11-20')).not.toBe(seedFor('2026-11-21'));
+    const a = generateRound(1, makeRng(seedFor('2026-11-20')));
+    const b = generateRound(1, makeRng(seedFor('2026-11-20')));
+    expect(JSON.stringify(a.parcels)).toBe(JSON.stringify(b.parcels));
+    expect(dayNumber('2026-11-13')).toBe(1);
+    expect(dayNumber('2026-11-20')).toBe(8);
+  });
+  it('streak counts consecutive days and resets after a gap', () => {
+    let s = nextStreak(null, '2026-11-20');
+    s = nextStreak(s, '2026-11-21');
+    s = nextStreak(s, '2026-11-21'); // same day twice: no double count
+    expect(s.count).toBe(2);
+    expect(currentStreak(s, '2026-11-22')).toBe(2); // still alive today
+    expect(currentStreak(s, '2026-11-24')).toBe(0);
+    expect(nextStreak(s, '2026-11-24').count).toBe(1);
+  });
+  it('share text is spoiler-free', () => {
+    const t = shareText({ day: 8, score: 820, streak: 3, url: 'https://x.test', rounds: [
+      { delivered: 8, total: 8, blocked: 0, finished: true },
+      { delivered: 9, total: 11, blocked: 1, finished: true },
+      { delivered: 0, total: 12, blocked: 0, finished: false },
+    ] });
+    expect(t).toBe('Vanful Daily #8 · ⭐ 820 · 🔥3\n🟩🟨⬜\nhttps://x.test');
+  });
+});

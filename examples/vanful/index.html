@@ -2,18 +2,95 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <meta name="theme-color" content="#0F766E" />
-    <meta name="description" content="Vanful — a 2-minute delivery puzzle. Pack it tight. Route it right." />
+    <meta name="author" content="cowfounder.com" />
+    <title>Vanful: a 3-minute delivery puzzle. Pack it tight. Route it right.</title>
+    <meta name="description" content="Pack odd-shaped parcels into your van, load the first stop by the door, and drive the fastest route before the shift clock runs out. Free, instant play in your browser." />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <title>Vanful — Pack it tight. Route it right.</title>
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Vanful: Pack it tight. Route it right." />
+    <meta property="og:description" content="A 3-minute delivery puzzle: pack the van, plan the route, beat the clock. Free in your browser." />
+    <meta property="og:url" content="https://vanful.vercel.app/" />
+    <meta property="og:image" content="https://vanful.vercel.app/og.png" />
+    <link rel="canonical" href="https://vanful.vercel.app/" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "VideoGame",
+        "name": "Vanful",
+        "description": "A 3-minute delivery puzzle: pack odd-shaped parcels into a van, plan the fastest route, and beat the shift clock.",
+        "genre": ["Puzzle", "Casual"],
+        "gamePlatform": "Web browser",
+        "playMode": "SinglePlayer",
+        "author": { "@type": "Organization", "name": "cowfounder.com", "url": "https://cowfounder.com" },
+        "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+      }
+    </script>
     <style>
-      html, body { margin: 0; height: 100%; background: #FFF8EE; overflow: hidden; }
-      #app { width: 100vw; height: 100vh; height: 100dvh; touch-action: none; }
+      :root { --bg: #FFF8EE; --fg: #1E2A32; --primary: #0F766E; --muted: #5B6B73; }
+      html, body { margin: 0; height: 100%; background: var(--bg); color: var(--fg); overflow: hidden;
+        font-family: Nunito, system-ui, -apple-system, "Segoe UI", sans-serif; }
+      #app { position: fixed; inset: 0; touch-action: none; }
+      body:not(.ready) #app { pointer-events: none; }
+      #intro { position: fixed; inset: 0; display: grid; place-content: center; text-align: center; padding: 0 16px; }
+      #intro h1 { font-size: clamp(48px, 12vw, 88px); margin: 0; letter-spacing: -1px; }
+      #intro .tag { color: var(--primary); font-size: 22px; font-weight: 700; margin: 4px 0 16px; }
+      #intro p, #intro li { color: var(--muted); font-size: 17px; line-height: 1.5; max-width: 34em; margin: 0 auto; }
+      #intro ol { padding: 0; list-style-position: inside; margin: 16px auto; }
+      #status { margin-top: 14px; font-weight: 700; color: var(--fg); min-height: 1.5em; }
+      #play { justify-self: center; margin-top: 8px; padding: 18px 44px; border: 0; border-radius: 18px; background: var(--primary);
+        color: #fff; font-family: inherit; font-size: 24px; font-weight: 700; line-height: 1; cursor: pointer; box-shadow: 0 6px 0 rgba(30, 42, 50, 0.18); }
+      #play:hover { filter: brightness(1.08); }
+      #play:focus-visible { outline: 3px solid var(--fg); outline-offset: 4px; }
+      #play:disabled { opacity: 0.6; cursor: progress; }
+      #play[hidden] { display: none; }
+      /* dialogs (email capture, supporter code) */
+      .vf-dialog { border: 0; border-radius: 22px; padding: 26px; width: min(420px, calc(100vw - 32px)); background: var(--bg); color: var(--fg); box-shadow: 0 20px 60px rgba(30, 42, 50, 0.35); }
+      .vf-dialog::backdrop { background: rgba(30, 42, 50, 0.45); }
+      .vf-dialog h2 { margin: 0 0 14px; font-size: 24px; }
+      .vf-dialog label { display: grid; gap: 6px; font-weight: 700; }
+      .vf-dialog input { font: inherit; font-size: 18px; padding: 12px 14px; border: 2px solid #D9CBB4; border-radius: 12px; background: #fff; color: var(--fg); }
+      .vf-dialog input:focus-visible { outline: 3px solid var(--primary); outline-offset: 1px; }
+      .vf-dialog .note { color: var(--muted); font-size: 14px; margin: 10px 0 0; }
+      .vf-dialog .err { color: #C2410C; font-weight: 700; min-height: 1.2em; margin: 8px 0; }
+      .vf-dialog .row { display: flex; gap: 10px; justify-content: flex-end; }
+      .vf-dialog button { font: inherit; font-weight: 700; font-size: 17px; padding: 12px 18px; border-radius: 12px; cursor: pointer; }
+      .vf-dialog .go { background: var(--primary); color: #fff; border: 0; }
+      .vf-dialog .ghost { background: transparent; color: var(--fg); border: 2px solid #5B6B73; }
+      .vf-feedback fieldset { border: 0; padding: 0; margin: 0 0 14px; }
+      .vf-feedback legend { font-weight: 700; margin-bottom: 8px; }
+      .vf-feedback .pills { display: flex; flex-wrap: wrap; gap: 8px; }
+      .vf-feedback .pill { display: inline-flex; align-items: center; gap: 6px; padding: 8px 14px; border: 2px solid #D9CBB4; border-radius: 999px; cursor: pointer; background: #fff; font-weight: 700; }
+      .vf-feedback .pill:has(input:checked) { border-color: var(--primary); background: #E6F2F0; }
+      .vf-feedback .pill input { accent-color: var(--primary); }
+      .vf-feedback textarea { font: inherit; padding: 10px 12px; border: 2px solid #D9CBB4; border-radius: 12px; resize: vertical; }
+      .vf-feedback .opt { color: var(--muted); font-weight: 600; }
+      /* once the game is running, the intro stays for screen readers and search engines only */
+      body.ready #intro { clip-path: inset(50%); width: 1px; height: 1px; overflow: hidden; }
     </style>
   </head>
   <body>
-    <div id="app"></div>
+    <main id="intro">
+      <img src="/logo-mark.svg" width="150" height="150" alt="" style="justify-self:center" />
+      <h1>Vanful</h1>
+      <p class="tag">Pack it tight. Route it right.</p>
+      <p>A 3-minute delivery puzzle. Pack odd-shaped parcels into your van, plan the fastest route through town, and deliver before the shift clock runs out.</p>
+      <ol>
+        <li>Drag parcels into the van. Tap one to rotate.</li>
+        <li>The door is at the back, so load the first stop by the door.</li>
+        <li>Tap the houses in order, avoid red traffic, and beat the clock.</li>
+      </ol>
+      <button id="play" type="button">Play free ➜</button>
+      <p id="status" role="status">Loading the van…</p>
+      <noscript><p>Vanful needs JavaScript to play.</p></noscript>
+    </main>
+    <div id="app" role="application" aria-label="Vanful game"></div>
     <script type="module" src="/src/main.ts"></script>
   </body>
 </html>

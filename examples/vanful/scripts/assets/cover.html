@@ -1,0 +1,57 @@
+<!doctype html>
+<meta charset="utf-8">
+<style>
+@font-face { font-family: Fredoka; font-weight: 700; src: url("../../node_modules/@fontsource/fredoka/files/fredoka-latin-700-normal.woff2") format("woff2"); }
+:root { --bg:#FFF8EE; --fg:#1E2A32; --line:#E6DCCB; }
+* { margin:0; box-sizing:border-box; }
+html,body { width:100vw; height:100vh; overflow:hidden; background:var(--bg); }
+body { position:relative; font-family:Fredoka, sans-serif;
+  background-image: linear-gradient(var(--line) 6px, transparent 6px), linear-gradient(90deg, var(--line) 6px, transparent 6px);
+  background-size: calc(var(--u) * 3.2) calc(var(--u) * 3.2); background-position: center; }
+body::after { content:""; position:absolute; inset:0; background: radial-gradient(ellipse at center, var(--bg) 38%, rgba(255,248,238,.55) 75%, rgba(255,248,238,.35)); }
+.stage { position:absolute; inset:0; z-index:2; display:flex; align-items:center; justify-content:center; gap:calc(var(--u)*1.2); }
+.landscape .stage { flex-direction:row; } .portrait .stage, .square .stage { flex-direction:column; gap:calc(var(--u)*.4); }
+.van { width:calc(var(--u)*7.5); height:auto; filter: drop-shadow(0 calc(var(--u)*.18) 0 rgba(30,42,50,.12)); }
+h1 { font-size:calc(var(--u)*3.3); color:var(--fg); letter-spacing:-.02em; line-height:1; }
+.p { position:absolute; z-index:1; display:grid; gap:calc(var(--u)*.08); }
+.p i { width:var(--c); height:var(--c); border-radius:calc(var(--c)*.18); background:var(--k); box-shadow: inset 0 calc(var(--c)*-.08) 0 rgba(0,0,0,.12); }
+</style>
+<body>
+<div class="stage">
+  <img class="van" src="../../brand/logo-mark.svg" alt="">
+  <h1>Vanful</h1>
+</div>
+<script>
+const q = new URLSearchParams(location.search), w = innerWidth, h = innerHeight;
+document.body.className = w > h * 1.2 ? 'landscape' : h > w * 1.2 ? 'portrait' : 'square';
+
+const C = ['#0F766E', '#FF7A59', '#3B82F6', '#8B5CF6', '#84CC16', '#F5B800'];
+// Polyomino parcels around the edges (cell layouts), placed in % of the frame.
+const shapes = [[[0,0],[1,0],[1,1]], [[0,0],[0,1],[0,2]], [[0,0],[1,0]], [[0,0],[1,0],[2,0],[2,1]], [[0,0]], [[0,0],[1,0],[0,1],[1,1]], [[0,0],[0,1]], [[1,0],[0,1],[1,1],[2,1]]];
+const wide = w > h * 1.2;
+document.documentElement.style.setProperty('--u', (wide ? Math.min(h / 12, w / 21) : Math.min(w / 13, h / 12)) + 'px');
+const spots = wide ? [[6,12,-12],[90,10,9],[5,84,8],[93,80,-10],[26,92,14],[72,93,-6],[48,7,4],[50,94,-14]]
+  : [[9,6,-12],[90,6,9],[50,3,4],[6,95,8],[93,95,-10],[30,97,14],[70,97,-6],[4,40,-14]];
+spots.forEach(([x, y, r], i) => {
+  const s = shapes[i % shapes.length], el = document.createElement('div'), c = Math.min(w, h) / (wide ? 13 : 17);
+  el.className = 'p';
+  el.style.cssText = 'left:' + x + '%;top:' + y + '%;transform:translate(-50%,-50%) rotate(' + r + 'deg);--c:' + c + 'px;--k:' + C[i % C.length] + ';grid-template-columns:repeat(' + (Math.max(...s.map(p => p[0])) + 1) + ',var(--c))';
+  const cols = Math.max(...s.map(p => p[0])) + 1, rows = Math.max(...s.map(p => p[1])) + 1;
+  for (let yy = 0; yy < rows; yy++) for (let xx = 0; xx < cols; xx++) {
+    const cell = document.createElement('i');
+    if (!s.some(p => p[0] === xx && p[1] === yy)) cell.style.visibility = 'hidden';
+    el.appendChild(cell);
+  }
+  document.body.appendChild(el);
+});
+// ?shot=<png>: a real gameplay frame on the right (landscape cover), in the exact box the preview video plays in.
+if (q.get('shot')) {
+  const img = document.createElement('img');
+  img.src = q.get('shot');
+  img.style.cssText = 'position:absolute;z-index:3;right:150px;top:60px;width:540px;height:960px;object-fit:cover;object-position:center top';
+  document.body.appendChild(img);
+  const st = document.querySelector('.stage');
+  st.style.right = '840px';
+  document.documentElement.style.setProperty('--u', '52px');
+}
+</script>
