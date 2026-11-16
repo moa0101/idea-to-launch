@@ -13,7 +13,6 @@
 ## 1.1.0 (2026-11-13)
 - Added `launch-levelup`, the challenger: ladder, rubric, benchmark, before → after scorecard.
 - `launch-build-game-web`: Playwright e2e in headless Chrome and an HTML front door (lessons from the Vanful v2 run).
-- The Apple builders detect `xcode-select` instead of assuming one machine's setup.
 
 ## 1.0.0 (2026-11-13)
 - First release: `launch` (the panel), `launch-brand`, and builders for web/SaaS, iOS/macOS, web games and
