@@ -44,6 +44,8 @@ for (const [, cmd] of text('README.md').matchAll(/(?<![\w/.-])\/(?:idea-to-launc
   if (!skills.includes(cmd)) fail('README.md', `command /${cmd} has no skill skills/${cmd}/`);
 }
 
+if (/(?<![\w/.:-])\/levelup\b/.test(text('README.md'))) fail('README.md', '/levelup is not a command; the skill is launch-levelup');
+
 // 4. Relative links and images in Markdown resolve.
 for (const f of tracked.filter((f) => f.endsWith('.md'))) {
   const body = text(f).replace(/```[\s\S]*?```/g, '').replace(/`[^`\n]*`/g, '');
